@@ -2,6 +2,8 @@
 
 **"With this treasure, I summon..."**
 
+👉 **[Download Built Mod JAR (`wither_scull_megumi-1.0.0.jar`)](https://github.com/landrcy/wither-skull-megumi/raw/main/releases/wither_scull_megumi-1.0.0.jar)**
+
 A Jujutsu Kaisen–inspired **NeoForge 1.21.1** mod that introduces **Wither Skull Megumi** (`wither_scull_megumi:megumi_wither_skeleton`) — a cursed Wither Skeleton wearing a tattered Jujutsu High uniform.
 
 ## Features & Ritual Sequence

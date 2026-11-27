@@ -1,0 +1,20 @@
+{
+  "mahoraga_summon": {
+    "subtitle": "subtitles.the_impossible_pack.mahoraga_summon",
+    "sounds": [
+      {
+        "name": "the_impossible_pack:mahoraga_summon",
+        "stream": true
+      }
+    ]
+  },
+  "divine_wheel_adapting": {
+    "subtitle": "subtitles.the_impossible_pack.divine_wheel_adapting",
+    "sounds": [
+      {
+        "name": "the_impossible_pack:divine_wheel_adapting",
+        "attenuation_distance": 48
+      }
+    ]
+  }
+}

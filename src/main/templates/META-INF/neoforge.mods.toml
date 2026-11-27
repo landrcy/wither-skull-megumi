@@ -1,5 +1,3 @@
-modLoader="javafml"
-loaderVersion="${loader_version_range}"
 license="${mod_license}"
 issueTrackerURL="https://github.com/landrcy/wither-skull-megumi/issues"
 
@@ -8,14 +6,16 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 displayURL="https://github.com/landrcy/wither-skull-megumi"
-logoFile="logo.png"
-authors="${mod_authors}"
-description='''${mod_description}'''
+iconFile="logo.png"
+authors="landrcy"
+description='''
+The Impossible Pack (Minecraft 26.3): 5% of Wither Skeletons wear Megumi's Jujutsu coat and trigger the 16-second Mahoraga Wither summoning ritual with custom summon & Divine Wheel adaptation sounds, pitch-black void illusion, launching skeleton parts, and an adapting Mahoraga-Wheeled Wither locked exclusively onto you.
+'''
 
 [[dependencies.${mod_id}]]
     modId="neoforge"
     type="required"
-    versionRange="${neo_version_range}"
+    versionRange="[26.3.0,)"
     ordering="NONE"
     side="BOTH"
 

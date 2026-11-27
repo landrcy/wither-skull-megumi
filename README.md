@@ -1,46 +1,39 @@
-# Wither Scull Megumi (Minecraft 1.21.1 - NeoForge)
+# The Impossible Pack (Minecraft 26.3 — NeoForge)
 
 **"With this treasure, I summon..."**
 
-👉 **[Download Built Mod JAR (`wither_scull_megumi-1.0.0.jar`)](https://github.com/landrcy/wither-skull-megumi/raw/main/releases/wither_scull_megumi-1.0.0.jar)**
+### 📥 1-Click Downloads (Minecraft 26.3 / NeoForge)
+- 👉 **[Standalone Mod JAR (`the_impossible_pack-26.3-2.0.0.jar`)](https://github.com/landrcy/wither-skull-megumi/raw/main/releases/the_impossible_pack-26.3-2.0.0.jar)** *(Drop directly into `.minecraft/mods/`)*
+- 👉 **[Modrinth / Prism Modpack (`The-Impossible-Pack-26.3.mrpack`)](https://github.com/landrcy/wither-skull-megumi/raw/main/releases/The-Impossible-Pack-26.3.mrpack)** *(Import directly as "The Impossible Pack")*
+- 👉 **[CurseForge Modpack (`The-Impossible-Pack-26.3-Modpack.zip`)](https://github.com/landrcy/wither-skull-megumi/raw/main/releases/The-Impossible-Pack-26.3-Modpack.zip)**
 
-A Jujutsu Kaisen–inspired **NeoForge 1.21.1** mod that introduces **Wither Skull Megumi** (`wither_scull_megumi:megumi_wither_skeleton`) — a cursed Wither Skeleton wearing a tattered Jujutsu High uniform.
+---
 
-## Features & Ritual Sequence
+## Features & Ritual Choreography
 
-1. **Spawning**:
-   - **0.1% Natural Replacement (`1 in 1,000`)**: Whenever a Wither Skeleton naturally spawns (e.g. in Nether Fortresses), there is a `0.1%` chance it spawns as **Wither Skull Megumi**.
-   - **Command**:
+1. **5% Coated Wither Skeletons**:
+   - **5% (`1 in 20`)** of natural Wither Skeleton spawns wear **Megumi Fushiguro's tattered Jujutsu High coat** (`the_impossible_pack:megumi_wither_skeleton`) and trigger the Mahoraga Wither summon when attacked. The remaining **95%** stay normal Wither Skeletons without the coat.
+   - Commands:
      ```mcfunction
-     /summon wither_scull_megumi:megumi_wither_skeleton
+     /summon the_impossible_pack:megumi_wither_skeleton
+     /summon the_impossible_pack:mahoraga_wither
      ```
-   - **Creative Spawn Egg**: Available in the **Spawn Eggs** Creative Tab (`Wither Skull Megumi Spawn Egg`).
+   - Creative Spawn Eggs are also included in the **Spawn Eggs** tab.
 
-2. **The Mahoraga Summoning Pose**:
-   - The moment you attack **Wither Skull Megumi**, he stows his blade, locks eyes with you, and snaps into Megumi Fushiguro's Eight-Handled Sword Divergent Sila Divine General Mahoraga summoning hand-sign pose.
+2. **Custom Mahoraga Summon Audio (`0:00 – 0:16`) & Pose**:
+   - Attacking a Coated Wither Skeleton immediately starts the **16-second Mahoraga Summon audio** (`the_impossible_pack:mahoraga_summon`) and snaps him into Megumi's hand-sign pose.
+   - Everything in the world cuts to **100% pitch black** leaving **only you and him** visible, surrounded by **12 Wither Skulls**.
 
-3. **Pitch-Black Domain Illusion**:
-   - Everything in the world fades and cuts into **100% pitch-black emptiness** — sky, blocks, terrain, lava, and all other mobs vanish completely, leaving **only you and him** visible in stark contrast.
+3. **Wither Charges Up Behind Him & Explodes (`0:16`)**:
+   - Across the summon build-up, a towering Wither crowned with the **3D Golden Eight-Handled Mahoraga Divine Wheel** rises and powers up directly behind him.
+   - Right as the summon completes (`16.0s`), **the Wither explodes, killing the Wither Skeleton and launching his skull, coated torso, arms, and legs** spinning past you through the darkness!
 
-4. **Mahoraga Wither Skull Formation**:
-   - **12 Wither Skulls** manifest around both of you in a ceremonial ring while an **8-Skull Dharmachakra Wheel** materializes behind/above his shoulders, clicking clockwise in discrete `45°` steps.
+4. **Divine Wheel Adapting Sound & Boss Mechanic**:
+   - You snap out of the illusion facing the real **Eight-Handled Mahoraga Wither** (`the_impossible_pack:mahoraga_wither`), which **exclusively targets only you** and wears the **3D Golden Mahoraga Divine Wheel** floating & tilted above its center head.
+   - Immediately upon completing the summon—and every time it adapts to your attacks in combat—its **Divine Wheel clicks `45°`**, plays the **Divine Wheel Adapting sound effect** (`the_impossible_pack:divine_wheel_adapting`), heals slightly, and builds damage resistance against that attack type!
 
-5. **The Wither Powers Up & Explodes**:
-   - A massive **Wither** rises out of the darkness directly behind him, pulsing and charging with swirling invulnerable energy before **detonating** — violently launching his skull, ribcage, arms, and legs tumbling past you through the black void.
-
-6. **Reality Returns — Single-Target Wither**:
-   - You snap out of the illusion back into the real world, where the summoned **Eight-Handled Wither** (`wither_scull_megumi:megumi_wither`) stands fully charged and **exclusively targets ONLY you** (ignoring all other players, pets, villagers, golems, and mobs, and refusing to switch aggro).
-
-## Installation
-
-1. Install **Minecraft 1.21.1** with **NeoForge** (`21.1.x`).
-2. Download `wither_scull_megumi-1.0.0.jar` from [Releases](https://github.com/landrcy/wither-skull-megumi/releases).
-3. Drop the `.jar` into your `.minecraft/mods/` folder and launch!
-
-## Building from Source
+## Building from Source (Java 25 + NeoForge 26.3)
 
 ```bash
 ./gradlew build
 ```
-
-The built mod jar is output to `build/libs/wither_scull_megumi-1.0.0.jar`.

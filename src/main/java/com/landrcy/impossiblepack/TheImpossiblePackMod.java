@@ -2,9 +2,11 @@ package com.landrcy.impossiblepack;
 
 import com.landrcy.impossiblepack.entity.MahoragaWitherEntity;
 import com.landrcy.impossiblepack.entity.MegumiWitherSkeletonEntity;
+import com.landrcy.impossiblepack.network.MobVfxPayload;
 import com.landrcy.impossiblepack.network.RitualSyncPayload;
 import com.landrcy.impossiblepack.registry.ModEntities;
 import com.landrcy.impossiblepack.registry.ModItems;
+import com.landrcy.impossiblepack.registry.ModParticles;
 import com.landrcy.impossiblepack.registry.ModSounds;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -24,6 +26,7 @@ public class TheImpossiblePackMod {
 
     public TheImpossiblePackMod(IEventBus modEventBus, ModContainer modContainer) {
         ModSounds.SOUND_EVENTS.register(modEventBus);
+        ModParticles.PARTICLE_TYPES.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
 
@@ -47,7 +50,8 @@ public class TheImpossiblePackMod {
     }
 
     private void registerPayloads(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar("2");
+        PayloadRegistrar registrar = event.registrar("3");
         registrar.playToClient(RitualSyncPayload.TYPE, RitualSyncPayload.STREAM_CODEC);
+        registrar.playToClient(MobVfxPayload.TYPE, MobVfxPayload.STREAM_CODEC);
     }
 }

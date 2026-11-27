@@ -2,11 +2,16 @@ package com.landrcy.impossiblepack.client;
 
 import com.landrcy.impossiblepack.TheImpossiblePackMod;
 import com.landrcy.impossiblepack.client.model.MahoragaWheelModel;
+import com.landrcy.impossiblepack.client.particle.ImpossibleParticles;
 import com.landrcy.impossiblepack.client.renderer.MahoragaWitherRenderer;
 import com.landrcy.impossiblepack.client.renderer.MegumiWitherSkeletonRenderer;
 import com.landrcy.impossiblepack.client.renderer.RitualIllusionRenderer;
+import com.landrcy.impossiblepack.client.renderer.SpringSpiderRenderer;
+import com.landrcy.impossiblepack.network.MobVfxPayload;
 import com.landrcy.impossiblepack.network.RitualSyncPayload;
 import com.landrcy.impossiblepack.registry.ModEntities;
+import com.landrcy.impossiblepack.registry.ModParticles;
+import net.minecraft.world.entity.EntityTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -16,6 +21,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ExtractLevelRenderStateEvent;
 import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
 import net.neoforged.neoforge.client.event.PrepareRenderBuffersEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent;
@@ -33,11 +39,22 @@ public class TheImpossiblePackClient {
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.MEGUMI_WITHER_SKELETON.get(), MegumiWitherSkeletonRenderer::new);
         event.registerEntityRenderer(ModEntities.MAHORAGA_WITHER.get(), MahoragaWitherRenderer::new);
+        event.registerEntityRenderer(EntityTypes.SPIDER, SpringSpiderRenderer::spider);
+        event.registerEntityRenderer(EntityTypes.CAVE_SPIDER, SpringSpiderRenderer::caveSpider);
+    }
+
+    @SubscribeEvent
+    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ModParticles.BOOGIE_WOOGIE_RING.get(), ImpossibleParticles.BoogieWoogieRingParticle::provider);
+        event.registerSpriteSet(ModParticles.BOOGIE_WOOGIE_SPARK.get(), ImpossibleParticles.BoogieWoogieSparkParticle::provider);
+        event.registerSpriteSet(ModParticles.SILKY_WEB_STRAND.get(), ImpossibleParticles.SilkyWebStrandParticle::provider);
+        event.registerSpriteSet(ModParticles.SIEGE_DEBRIS.get(), ImpossibleParticles.SiegeDebrisParticle::provider);
     }
 
     @SubscribeEvent
     public static void registerClientPayloads(RegisterClientPayloadHandlersEvent event) {
         event.register(RitualSyncPayload.TYPE, (payload, ctx) -> ClientRitualManager.handleSyncPayload(payload));
+        event.register(MobVfxPayload.TYPE, (payload, ctx) -> ClientMobVfxManager.handlePayload(payload));
     }
 
     @SubscribeEvent

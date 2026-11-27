@@ -11,7 +11,7 @@ authors="landrcy"
 description='''
 The Impossible Pack (Minecraft 26.3):
 - 5% of Wither Skeletons wear Megumi's Jujutsu coat and trigger the 16-second Mahoraga Wither summoning ritual with custom summon & Divine Wheel adaptation sounds, pitch-black void illusion, launching skeleton parts, and an adapting Mahoraga-Wheeled Wither locked exclusively onto you.
-- Creepers get struck by lightning 0.1s after starting their fuse and turn into Charged Creepers.
+- Creepers get struck by lightning 0.5s after starting their fuse and turn into Charged Creepers.
 - Skeleton arrows curve mid-flight toward players so they almost always hit.
 - Zombies and Skeletons always spawn with at least 1 piece of armor, weighted toward fuller sets with rarer high-tier armor (Leather through Netherite).
 '''

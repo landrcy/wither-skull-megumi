@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Core "The Impossible Pack" combat modifiers:
- * 1. Creepers get struck by lightning 0.1s (2 ticks) after starting their fuse and turn into Charged Creepers.
+ * 1. Creepers get struck by lightning exactly 0.5s (10 ticks) after starting their fuse and turn into Charged Creepers.
  * 2. Skeleton arrows curve mid-flight toward the player so they almost always hit.
  * 3. Zombies and Skeletons always spawn with at least 1 piece of armor, weighted toward more pieces,
  *    with progressively lower chances for stronger tiers (Leather -> Copper -> Gold -> Chainmail -> Iron -> Diamond -> Netherite).
@@ -46,32 +46,30 @@ public final class ImpossibleMobEvents {
     private ImpossibleMobEvents() {}
 
     private static final String ARMORED_TAG = "the_impossible_pack_armored";
-    private static final int CREEPER_LIGHTNING_DELAY_TICKS = 2; // 0.1 seconds at 20 TPS
+    private static final int CREEPER_LIGHTNING_DELAY_TICKS = 10; // 0.5 seconds at 20 TPS
 
     private static final Map<UUID, Integer> CREEPER_FUSE_TICKS = new ConcurrentHashMap<>();
     private static final Map<UUID, Long> CREEPER_BOLT_SHIELD_UNTIL = new ConcurrentHashMap<>();
 
     private enum ArmorTier {
-        LEATHER(Items.LEATHER_HELMET, Items.LEATHER_CHESTPLATE, Items.LEATHER_LEGGINGS, Items.LEATHER_BOOTS, 0.085F),
-        COPPER(Items.COPPER_HELMET, Items.COPPER_CHESTPLATE, Items.COPPER_LEGGINGS, Items.COPPER_BOOTS, 0.085F),
-        GOLD(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS, 0.085F),
-        CHAINMAIL(Items.CHAINMAIL_HELMET, Items.CHAINMAIL_CHESTPLATE, Items.CHAINMAIL_LEGGINGS, Items.CHAINMAIL_BOOTS, 0.085F),
-        IRON(Items.IRON_HELMET, Items.IRON_CHESTPLATE, Items.IRON_LEGGINGS, Items.IRON_BOOTS, 0.085F),
-        DIAMOND(Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, 0.04F),
-        NETHERITE(Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS, 0.03F);
+        LEATHER(Items.LEATHER_HELMET, Items.LEATHER_CHESTPLATE, Items.LEATHER_LEGGINGS, Items.LEATHER_BOOTS),
+        COPPER(Items.COPPER_HELMET, Items.COPPER_CHESTPLATE, Items.COPPER_LEGGINGS, Items.COPPER_BOOTS),
+        GOLD(Items.GOLDEN_HELMET, Items.GOLDEN_CHESTPLATE, Items.GOLDEN_LEGGINGS, Items.GOLDEN_BOOTS),
+        CHAINMAIL(Items.CHAINMAIL_HELMET, Items.CHAINMAIL_CHESTPLATE, Items.CHAINMAIL_LEGGINGS, Items.CHAINMAIL_BOOTS),
+        IRON(Items.IRON_HELMET, Items.IRON_CHESTPLATE, Items.IRON_LEGGINGS, Items.IRON_BOOTS),
+        DIAMOND(Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS),
+        NETHERITE(Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS);
 
         final Item helmet;
         final Item chestplate;
         final Item leggings;
         final Item boots;
-        final float dropChance;
 
-        ArmorTier(Item helmet, Item chestplate, Item leggings, Item boots, float dropChance) {
+        ArmorTier(Item helmet, Item chestplate, Item leggings, Item boots) {
             this.helmet = helmet;
             this.chestplate = chestplate;
             this.leggings = leggings;
             this.boots = boots;
-            this.dropChance = dropChance;
         }
 
         Item itemForSlot(EquipmentSlot slot) {
@@ -86,7 +84,7 @@ public final class ImpossibleMobEvents {
     }
 
     // -------------------------------------------------------------------------
-    // 1. Guaranteed + Scaled Armor for Zombies & Skeletons
+    // 1. Guaranteed + Scaled Armor for Zombies & Skeletons (0% Equipment Drops)
     // -------------------------------------------------------------------------
 
     @SubscribeEvent
@@ -140,19 +138,28 @@ public final class ImpossibleMobEvents {
         }
 
         int piecesToAdd = Math.max(0, targetPieces - equippedCount);
-        if (piecesToAdd == 0 || emptySlots.isEmpty()) {
-            return;
+        if (piecesToAdd > 0 && !emptySlots.isEmpty()) {
+            Collections.shuffle(emptySlots, new java.util.Random(random.nextLong()));
+            ArmorTier baseTier = rollArmorTier(random);
+
+            for (int i = 0; i < Math.min(piecesToAdd, emptySlots.size()); i++) {
+                EquipmentSlot slot = emptySlots.get(i);
+                // 70% cohesive tier with the mob's base tier, 30% independently rolled piece for variety
+                ArmorTier tier = random.nextFloat() < 0.70F ? baseTier : rollArmorTier(random);
+                mob.setItemSlot(slot, new ItemStack(tier.itemForSlot(slot)));
+            }
         }
 
-        Collections.shuffle(emptySlots, new java.util.Random(random.nextLong()));
-        ArmorTier baseTier = rollArmorTier(random);
-
-        for (int i = 0; i < Math.min(piecesToAdd, emptySlots.size()); i++) {
-            EquipmentSlot slot = emptySlots.get(i);
-            // 70% cohesive tier with the mob's base tier, 30% independently rolled piece for variety
-            ArmorTier tier = random.nextFloat() < 0.70F ? baseTier : rollArmorTier(random);
-            mob.setItemSlot(slot, new ItemStack(tier.itemForSlot(slot)));
-            mob.setDropChance(slot, tier.dropChance);
+        // Prevent Zombies & Skeletons from dropping ANY of their equipped armor or weapons
+        for (EquipmentSlot slot : new EquipmentSlot[]{
+                EquipmentSlot.HEAD,
+                EquipmentSlot.CHEST,
+                EquipmentSlot.LEGS,
+                EquipmentSlot.FEET,
+                EquipmentSlot.MAINHAND,
+                EquipmentSlot.OFFHAND
+        }) {
+            mob.setDropChance(slot, 0.0F);
         }
     }
 
@@ -283,7 +290,9 @@ public final class ImpossibleMobEvents {
             return;
         }
 
-        Vec3 aimPoint = new Vec3(target.getX(), target.getY(0.55D), target.getZ());
+        // Aim at player's chest with slight movement lead so sprinting/strafing players still get tracked cleanly
+        Vec3 targetLead = target.getDeltaMovement().scale(Math.min(0.6D, arrow.distanceTo(target) * 0.08D));
+        Vec3 aimPoint = new Vec3(target.getX(), target.getY(0.55D), target.getZ()).add(targetLead);
         Vec3 toTarget = aimPoint.subtract(arrow.position());
         double dist = toTarget.length();
         if (dist < 0.05D) {
@@ -293,18 +302,18 @@ public final class ImpossibleMobEvents {
         Vec3 currentDir = vel.normalize();
         Vec3 desiredDir = toTarget.scale(1.0D / dist);
 
-        // Only curve while target is generally ahead of the arrow (no unnatural 180-degree boomerangs after a miss)
-        if (currentDir.dot(desiredDir) < -0.15D) {
+        // Wide tracking cone so arrows hook hard around jumps, sprints, and sharp strafes
+        if (currentDir.dot(desiredDir) < -0.50D) {
             return;
         }
 
-        // Smooth homing curve: subtly bends mid-air at long range and locks cleanly at close range
-        double turnStrength = dist < 6.0D ? 0.34D : 0.22D;
+        // Aggressive homing curve: visibly bends hard mid-air and locks straight into the player up close
+        double turnStrength = dist < 7.0D ? 0.58D : 0.40D;
         Vec3 steeredDir = currentDir.scale(1.0D - turnStrength).add(desiredDir.scale(turnStrength)).normalize();
 
-        // Keep enough momentum so gravity never drops it short of the player
-        double speed = Mth.clamp(Math.sqrt(speedSqr), 1.35D, 2.45D);
-        double gravityLift = dist > 3.5D ? 0.042D : 0.025D;
+        // Keep strong momentum & full gravity compensation so curved shots never drop short
+        double speed = Mth.clamp(Math.sqrt(speedSqr), 1.45D, 2.55D);
+        double gravityLift = dist > 2.0D ? 0.048D : 0.025D;
         Vec3 newVel = steeredDir.scale(speed).add(0.0D, gravityLift, 0.0D);
 
         arrow.setDeltaMovement(newVel);

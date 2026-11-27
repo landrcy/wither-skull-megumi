@@ -2,35 +2,32 @@
 
 **"With this treasure, I summon..."**
 
-### 📥 1-Click Downloads (Minecraft 26.3 / NeoForge)
-- 👉 **[Standalone Mod JAR (`the_impossible_pack-26.3-2.0.0.jar`)](https://github.com/landrcy/wither-skull-megumi/raw/main/releases/the_impossible_pack-26.3-2.0.0.jar)** *(Drop directly into `.minecraft/mods/`)*
+### 📥 1-Click Downloads (v2.1.0 — Minecraft 26.3 / NeoForge)
+- 👉 **[Standalone Mod JAR (`the_impossible_pack-26.3-2.1.0.jar`)](https://github.com/landrcy/wither-skull-megumi/raw/main/releases/the_impossible_pack-26.3-2.1.0.jar)** *(Drop directly into `.minecraft/mods/`)*
 - 👉 **[Modrinth / Prism Modpack (`The-Impossible-Pack-26.3.mrpack`)](https://github.com/landrcy/wither-skull-megumi/raw/main/releases/The-Impossible-Pack-26.3.mrpack)** *(Import directly as "The Impossible Pack")*
 - 👉 **[CurseForge Modpack (`The-Impossible-Pack-26.3-Modpack.zip`)](https://github.com/landrcy/wither-skull-megumi/raw/main/releases/The-Impossible-Pack-26.3-Modpack.zip)**
 
 ---
 
-## Features & Ritual Choreography
+## Features
 
-1. **5% Coated Wither Skeletons**:
-   - **5% (`1 in 20`)** of natural Wither Skeleton spawns wear **Megumi Fushiguro's tattered Jujutsu High coat** (`the_impossible_pack:megumi_wither_skeleton`) and trigger the Mahoraga Wither summon when attacked. The remaining **95%** stay normal Wither Skeletons without the coat.
-   - Commands:
-     ```mcfunction
-     /summon the_impossible_pack:megumi_wither_skeleton
-     /summon the_impossible_pack:mahoraga_wither
-     ```
-   - Creative Spawn Eggs are also included in the **Spawn Eggs** tab.
+### 1. Coated Wither Skeletons & Mahoraga Wither Ritual
+- **5% (`1 in 20`)** of natural Wither Skeleton spawns wear **Megumi Fushiguro's tattered Jujutsu High coat** (`the_impossible_pack:megumi_wither_skeleton`) and trigger the 16-second Mahoraga Wither summon when attacked (the remaining 95% remain normal uncoated Wither Skeletons).
+- **Custom Audio**: Plays `mahoraga_summon.ogg` (`16.17s`) as the world cuts to **100% pitch black** leaving only you and him surrounded by **12 Wither Skulls**, while a towering Wither crowned with the **3D Golden Eight-Handled Mahoraga Divine Wheel** charges up behind him.
+- **Explosion & Adaptation**: At `16.0s`, the Wither explodes behind him—killing him and launching all 6 of his skeletal parts past you—then snaps you out of the illusion facing the real **Eight-Handled Mahoraga Wither** (`the_impossible_pack:mahoraga_wither`), which **exclusively targets only you**, turns its 3D Divine Wheel `45°`, and plays `divine_wheel_adapting.ogg` on summon and every time it adapts to your attacks!
+- Commands: `/summon the_impossible_pack:megumi_wither_skeleton` and `/summon the_impossible_pack:mahoraga_wither` (plus Creative Spawn Eggs).
 
-2. **Custom Mahoraga Summon Audio (`0:00 – 0:16`) & Pose**:
-   - Attacking a Coated Wither Skeleton immediately starts the **16-second Mahoraga Summon audio** (`the_impossible_pack:mahoraga_summon`) and snaps him into Megumi's hand-sign pose.
-   - Everything in the world cuts to **100% pitch black** leaving **only you and him** visible, surrounded by **12 Wither Skulls**.
+### 2. 0.1-Second Lightning-Charged Creepers
+- The moment any Creeper begins its fuse, **0.1 seconds (`2` ticks) later** a lightning bolt strikes it and turns it into a **Charged Creeper** before it detonates (shielded from dying to its own lightning bolt!).
 
-3. **Wither Charges Up Behind Him & Explodes (`0:16`)**:
-   - Across the summon build-up, a towering Wither crowned with the **3D Golden Eight-Handled Mahoraga Divine Wheel** rises and powers up directly behind him.
-   - Right as the summon completes (`16.0s`), **the Wither explodes, killing the Wither Skeleton and launching his skull, coated torso, arms, and legs** spinning past you through the darkness!
+### 3. Homing / Curving Skeleton Arrows
+- Arrows fired by Skeletons (including Strays, Bogged, and Wither Skeletons) smoothly **curve mid-flight toward the player**, compensating for strafing and gravity so they almost always hit unless blocked or covered.
 
-4. **Divine Wheel Adapting Sound & Boss Mechanic**:
-   - You snap out of the illusion facing the real **Eight-Handled Mahoraga Wither** (`the_impossible_pack:mahoraga_wither`), which **exclusively targets only you** and wears the **3D Golden Mahoraga Divine Wheel** floating & tilted above its center head.
-   - Immediately upon completing the summon—and every time it adapts to your attacks in combat—its **Divine Wheel clicks `45°`**, plays the **Divine Wheel Adapting sound effect** (`the_impossible_pack:divine_wheel_adapting`), heals slightly, and builds damage resistance against that attack type!
+### 4. Guaranteed + Tiered Armor on Zombies & Skeletons
+- Every Zombie and Skeleton spawns with **at least 1 piece of armor**, weighted heavily toward fuller sets:
+  - **1 piece**: `12%` | **2 pieces**: `23%` | **3 pieces**: `30%` | **4 pieces (Full Set)**: `35%`
+- Higher armor tiers are progressively rarer (including Minecraft 26.3 **Copper Armor**):
+  - **Leather** (`34%`) → **Copper** (`22%`) → **Gold** (`16%`) → **Chainmail** (`12%`) → **Iron** (`10%`) → **Diamond** (`4.5%`) → **Netherite** (`1.5%`)
 
 ## Building from Source (Java 25 + NeoForge 26.3)
 
